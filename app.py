@@ -1,5 +1,5 @@
 import numpy as np
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 import pickle
 import gzip
 from predict import model_fn
@@ -29,12 +29,12 @@ def predict():
     print(review_input)
     predict = predict_fn(review_input, model)
     if predict == 1:
-        result = 'Tich cuc'
+        result = 'Tích cực'
     else:
-        result = 'Tieu cuc'
+        result = 'Tiêu cực'
 
-    return render_template('index.html', prediction_text='Ket qua $ {}'.format(result))
+    return render_template('index.html', prediction_text='Kết quả: {}'.format(result))
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8080)
