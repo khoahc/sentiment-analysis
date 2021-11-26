@@ -7,7 +7,7 @@ from predict import predict_fn
 from utils import review_to_words
 from utils import convert_and_pad
 app = Flask(__name__)
-model = model_fn('models\\vi')
+model = model_fn('models/vi')
 
 print(model)
 
