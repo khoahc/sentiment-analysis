@@ -60,8 +60,6 @@ def output_fn(prediction_output, accept):
 
 
 def predict_fn(input_data, model):
-    print('Inferring sentiment of input data.')
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     if model.word_dict is None:

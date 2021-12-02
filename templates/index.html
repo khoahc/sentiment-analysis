@@ -8,7 +8,10 @@
     <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         *{
             background-color:#212529!important;
@@ -20,27 +23,87 @@
             border-color: #96d3ec;
             color: white;
         }
+
+        .text-area {
+            color: white;
+        }
+
         .btn{
             background-color: #6c757d;
-        
+
         }
     </style>
+    <script>
+        function predict() {
+            document.getElementById("label_waiting").classList.add("spinner-border");
+            document.getElementById("label_waiting").classList.add("spinner-border-sm");
+
+            var form = $("#predict-form");
+            var url = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data)
+                {
+                    document.querySelector('#msg_result').innerText = data.msg;
+                }
+            });
+
+            document.getElementById("label_waiting").classList.remove("spinner-border");
+            document.getElementById("label_waiting").classList.remove("spinner-border-sm");
+        }
+    </script>
 </head>
 
 <body>
 <div class="container mt-5">
-    <h1>Phân tích cảm xúc bình luận</h1>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <div class="col-11 ">
+                    <h1 class="h3 text-center text-gray-800 mb-0">Phân tích cảm xúc bình luận</h1>
+                </div>
+            </div>
+        </nav> <br>
+        <!-- Main Input For Receiving Query to our ML -->
+        <div class="row">
+            <div class="col">
+                <form action="{{ url_for('predict')}}" method="post" id="predict-form">
+                <textarea class="form-control text-area" name="text"
+                          placeholder="Nhập bình luận" required="required"
+                          rows="5" cols="50"></textarea>
+                </form>
+            </div>
+        </div>
+        <br>
 
-    <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}" method="post">
-        <textarea class="form-control" name="text" placeholder="Nhập bình luận" required="required" rows="5" cols="50"></textarea>
-        <!-- <input type="text" name="text" placeholder="Nhập bình luận" required="required"/> -->
-        <button type="submit" class="btn btn-primary btn-block btn-large">Dự đoán</button>
-    </form>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <button type="button" onclick="predict()"
+                            class="btn btn-primary">
+                        <span id="label_waiting"></span>
+                        Dự đoán
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <div id="result" class="alert d-flex justify-content-center">
+                        <strong id="msg_result" class="mr-4"></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <br>
-    <h3>{{ prediction_text }}</h3>
-
+        <br>
+        <h3>{{ prediction_text }}</h3>
+    </div>
 </div>
 
 
