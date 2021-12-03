@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col">
                 <form action="{{ url_for('predict')}}" method="post" id="predict-form">
-                <textarea class="form-control text-area" name="text"
+                <textarea class="form-control text-area" name="text" oninput='document.querySelector("#msg_result").innerText = ""'
                           placeholder="Nhập bình luận" required="required"
                           rows="5" cols="50"></textarea>
                 </form>
