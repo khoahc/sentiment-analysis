@@ -28,6 +28,7 @@
                 success: function(data)
                 {
                     document.querySelector('#msg_result').innerText = data.msg;
+                    document.querySelector('#percent_result').innerText = `${(data.percent * 100).toFixed(2)} %`;
                 }
             });
 
@@ -75,7 +76,9 @@
             <div class="col">
                 <div class="d-flex justify-content-center">
                     <div id="result" class="alert d-flex justify-content-center">
-                        <strong id="msg_result" class="mr-4"></strong>
+                        <strong id="msg_result" class="mr-4">
+                        </strong>
+                        <span id="percent_result"></span>
                     </div>
                 </div>
             </div>

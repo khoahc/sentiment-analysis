@@ -27,13 +27,15 @@ def predict():
     if len(review_input) > 0:
         # input_data_words = review_to_words(review_input)
         # data_X, data_len = convert_and_pad(model.word_dict, input_data_words)
-        predict = predict_fn(review_input, model)
+        predict, percent = predict_fn(review_input, model)
+        # print(predict, float(percent))
         if predict == 1:
             result['code'] = 1
             result['msg'] = 'Tích cực'
         else:
             result['code'] = 0
             result['msg'] = 'Tiêu cực'
+        result['percent'] = float(percent)
 
         print(request.form['text'].strip() + " --> " + result.get('msg'))
     else:

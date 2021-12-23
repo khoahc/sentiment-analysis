@@ -94,4 +94,4 @@ def predict_fn(input_data, model):
     else:
         result = 0
         
-    return result
+    return result, output
